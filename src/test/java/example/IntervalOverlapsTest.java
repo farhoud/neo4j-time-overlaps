@@ -2,7 +2,6 @@ package example;
 
 import org.junit.Rule;
 import org.junit.Test;
-
 import org.neo4j.driver.v1.Config;
 import org.neo4j.driver.v1.Driver;
 import org.neo4j.driver.v1.GraphDatabase;
@@ -10,16 +9,16 @@ import org.neo4j.driver.v1.Session;
 import org.neo4j.harness.junit.Neo4jRule;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
-public class JoinTest
+public class IntervalOverlapsTest
 {
     // This rule starts a Neo4j instance
     @Rule
     public Neo4jRule neo4j = new Neo4jRule()
 
             // This is the function we want to test
-            .withFunction( Join.class );
+            .withFunction( IntervalOverlaps.class );
 
     @Test
     public void shouldAllowIndexingAndFindingANode() throws Throwable
@@ -32,10 +31,10 @@ public class JoinTest
             Session session = driver.session();
 
             // When
-            String result = session.run( "RETURN example.join(['Hello', 'World']) AS result").single().get("result").asString();
+            boolean result = session.run( "RETURN example.overlaps('2019-01-01T00:00:01','2019-02-01T00:00:01','2019-01-01T00:00:01','2019-01-04T00:00:01') AS result").single().get("result").asBoolean();
 
             // Then
-            assertThat( result, equalTo( "Hello,World" ) );
+            assertThat( result, equalTo( true ) );
         }
     }
 }
