@@ -1,56 +1,24 @@
 = Neo4j Procedure Template
-:branch: 3.4
-:root: https://github.com/neo4j-examples/neo4j-procedure-template/blob/{branch}/src
+:branch: 3.5
+:root: https://github.com/farhoud/neo4j-time-overlaps/blob/{branch}/src
 
-This project is an interval you can use to build user defined procedures, functions and aggregation functions in Neo4j.
-It contains two procedures, for reading and updating a full-text index.
-
-To try this out, simply clone this repository and have a look at the source and test code (including Test-Server-Setup).
+This project is functions for working with Inervals.
 
 [Note]
 This project requires a Neo4j {branch}.x dependency.
 
 
-=== User Defined Procedure
+=== Overlaps
 
-The user defined procedure allows you to index and search a explicit Lucene index within Neo4j.
+The Overlaps function is a simple check overlaps function that get 2 interval as 4 string input and check if they has overlaps.
 
-Given properties of a node can be added to indexes named according to the labels of the node.
-After that the data can be searched with Lucene Syntax.
-
-See link:{root}/main/java/interval/FullTextIndex.java[`FullTextIndex.java`] and the link:{root}/test/java/interval/LegacyFullTextIndexTest.java[`LegacyFullTextIndexTest.java`].
+See link:{root}/main/java/example/Overlaps.java[`overlaps.java`] and the link:{root}/test/java/example/OverlapsTest.java[`JoinTest.java`].
 
 [source,cypher]
 ----
-MATCH (n:Person)
-CALL interval.index(id(n), ['name']);
-
-CALL interval.search('Person','name:Jo*') YIELD nodeId
+RETURN example.overlaps('2019-04-30T06:30:00','2019-04-30T06:30:00','2019-04-30T06:30:00','2019-04-30T06:30:00') as hasOverlaps
 ----
 
-=== User Defined Function
-
-The user defined function is a simple join function that joins a list of strings using a delimiter.
-
-See link:{root}/main/java/interval/Join.java[`Join.java`] and the link:{root}/test/java/interval/JoinTest.java[`JoinTest.java`].
-
-[source,cypher]
-----
-RETURN interval.join(['A','quick','brown','fox'],' ') as sentence
-----
-
-=== User Defined Aggregation Function
-
-The aggregation function `interval.last` returns the last row of an aggregation.
-
-[source,cypher]
-----
-MATCH (n:Person)
-WITH n ORDER BY n.born
-RETURN n.born, interval.last(n) as last
-----
-
-See link:{root}/main/java/interval/Last.java[`Last.java`] and the link:{root}/test/java/interval/LastTest.java[`LastTest.java`].
 
 == Building
 
