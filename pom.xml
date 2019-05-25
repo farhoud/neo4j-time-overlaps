@@ -3,13 +3,13 @@
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.neo4j.example</groupId>
-  <artifactId>procedure-template</artifactId>
+  <groupId>org.feri.interval</groupId>
+  <artifactId>interval-procedures</artifactId>
   <version>1.0.0-SNAPSHOT</version>
 
   <packaging>jar</packaging>
-  <name>Neo4j Procedure Template</name>
-  <description>A template project for building a Neo4j Procedure</description>
+  <name>Neo4j Interval Procedure</name>
+  <description>Neo4j Interval Procedure for working with intervals</description>
 
   <properties>
     <neo4j.version>3.5.2</neo4j.version>

@@ -1,4 +1,4 @@
-package example;
+package interval;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,7 +31,7 @@ public class IntervalOverlapsTest
             Session session = driver.session();
 
             // When
-            boolean result = session.run( "RETURN example.overlaps('2019-01-01T00:00:01','2019-02-01T00:00:01','2019-01-01T00:00:01','2019-01-04T00:00:01') AS result").single().get("result").asBoolean();
+            boolean result = session.run( "RETURN interval.overlaps('2019-01-01T00:00:01','2019-02-01T00:00:01','2019-01-01T00:00:01','2019-01-04T00:00:01') AS result").single().get("result").asBoolean();
 
             // Then
             assertThat( result, equalTo( true ) );
