@@ -31,10 +31,27 @@ public class IntervalOverlapsTest
             Session session = driver.session();
 
             // When
-            boolean result = session.run( "RETURN interval.overlaps('2019-01-01T00:00:01','2019-02-01T00:00:01','2019-01-01T00:00:01','2019-01-04T00:00:01') AS result").single().get("result").asBoolean();
+            boolean result = session.run( "RETURN interval.overlaps(localdatetime('2019-01-01T00:00:01'),localdatetime('2019-02-01T00:00:01'),localdatetime('2019-01-01T00:00:01'),localdatetime('2019-01-04T00:00:01')) AS result").single().get("result").asBoolean();
 
             // Then
             assertThat( result, equalTo( true ) );
+
+            // When
+            Long result2 = session.run( "RETURN interval.intersectInMinutes(localdatetime('2019-01-01T00:00:01'),localdatetime('2019-01-04T00:00:01'),localdatetime('2019-01-03T00:00:01'),localdatetime('2019-01-04T00:00:01')) AS result").single().get("result").asLong();
+
+            // Then
+
+            // When
+            Long result4 = session.run( "RETURN interval.intersectInMinutes(localdatetime('2019-01-01T00:00:01'),localdatetime('2019-01-04T00:00:01'),localdatetime('2019-01-03T00:00:01'),localdatetime('2019-01-04T00:00:01')) AS result").single().get("result").asLong();
+
+            // Then
+            assertThat( result4, equalTo( 1440L ) );
+
+            // When
+            Long result3 = session.run( "RETURN interval.intersectInMinutes(localdatetime('2019-01-01T00:00:01'),localdatetime('2019-01-02T00:00:01'),localdatetime('2019-01-10T00:00:01'),localdatetime('2019-01-15T00:00:01')) AS result").single().get("result").asLong();
+
+            // Then
+            assertThat( result3, equalTo( 0L ) );
         }
     }
 }
